@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import BuildingMap from "./components/BuildingMap";
 import ArcadiaSection from "./components/ArcadiaSection";
+import ArcadiaFlatUnit3BHK from "./components/ArcadiaFlatUnit3BHK";
 import NotFound from "./pages/NotFound";
 
 const centeredPage: React.CSSProperties = {
@@ -26,6 +27,14 @@ export default function App() {
         element={
           <div style={centeredPage}>
             <ArcadiaSection width={1000} />
+          </div>
+        }
+      />
+      <Route
+        path="/unit"
+        element={
+          <div style={centeredPage}>
+            <ArcadiaFlatUnit3BHK width={1000} />
           </div>
         }
       />

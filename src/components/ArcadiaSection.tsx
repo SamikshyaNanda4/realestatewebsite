@@ -46,6 +46,11 @@ export default function ArcadiaSection({ width = 800 }: ArcadiaSectionProps) {
 // ];
 
 
+  const sectionLabels: Record<number, string> = {
+    1: "Section A",
+    2: "Section B",
+  };
+
   // ---------------------------------------------------------------------------
   const sections: { sectionId: number; polygons: { points: string }[] }[] = [
     // TODO: add your section polygon groups here
@@ -184,10 +189,16 @@ export default function ArcadiaSection({ width = 800 }: ArcadiaSectionProps) {
                   setHoveredGroup(null);
                   setTooltipText(null);
                 }}
-                onClick={() => {
-                  // TODO: handle section click (e.g. navigate deeper or open a modal)
-                  console.log("Section clicked:", sectionId, "from floor:", floorState?.floorNum);
-                }}
+                onClick={() =>
+                  navigate("/unit", {
+                    state: {
+                      floorNum: floorState?.floorNum ?? null,
+                      floorInfo: floorState?.floorInfo ?? null,
+                      sectionId,
+                      sectionLabel: sectionLabels[sectionId] ?? `Section ${sectionId}`,
+                    },
+                  })
+                }
               />
             );
           })
