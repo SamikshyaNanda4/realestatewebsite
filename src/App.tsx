@@ -1,18 +1,19 @@
 import { useState } from "react";
-
-type Tooltip = {
-  text: string;
-  x: number;
-  y: number;
-};
+import { useFloating, offset, flip, shift, FloatingPortal } from "@floating-ui/react";
 
 type BuildingMapProps = {
   width?: number;
 };
 
 function BuildingMap({ width = 800 }: BuildingMapProps) {
-  const [tooltip, setTooltip] = useState<Tooltip | null>(null);
+  const [tooltipText, setTooltipText] = useState<string | null>(null);
   const [hoveredGroup, setHoveredGroup] = useState<number | null>(null);
+
+  const { refs, floatingStyles } = useFloating({
+    open: tooltipText !== null,
+    placement: "right",
+    middleware: [offset(12), flip(), shift({ padding: 8 })],
+  });
 
   const floor41 = [
     { points: "350,99 350,105 350,99 354,98.5 354,98.5 354,104.5 354,104.5, 350,105" },
@@ -295,11 +296,23 @@ const floor10 = [
                 style={{ cursor: "pointer" }}
                 onMouseEnter={(e) => {
                   setHoveredGroup(floorNum);
-                  setTooltip({ text: `Floor ${floorNum} - 2BHK Apartment - ₹45L`, x: e.clientX, y: e.clientY });
+                  setTooltipText(`Floor ${floorNum} - 2BHK Apartment - ₹45L`);
+                  refs.setPositionReference({
+                    getBoundingClientRect() {
+                      return { width: 0, height: 0, x: e.clientX, y: e.clientY, top: e.clientY, left: e.clientX, right: e.clientX, bottom: e.clientY };
+                    },
+                  });
+                }}
+                onMouseMove={(e) => {
+                  refs.setPositionReference({
+                    getBoundingClientRect() {
+                      return { width: 0, height: 0, x: e.clientX, y: e.clientY, top: e.clientY, left: e.clientX, right: e.clientX, bottom: e.clientY };
+                    },
+                  });
                 }}
                 onMouseLeave={() => {
                   setHoveredGroup(null);
-                  setTooltip(null);
+                  setTooltipText(null);
                 }}
                 onClick={() => alert("Open Apartment Details")}
               />
@@ -309,23 +322,30 @@ const floor10 = [
       </svg>
 
       {/* Tooltip */}
-      {tooltip && (
-        <div
-          style={{
-            position: "absolute",
-            top: tooltip.y+100,
-            left: tooltip.x,
-            background: "black",
-            color: "white",
-            padding: "3px 5px",
-            borderRadius: "5px",
-            pointerEvents: "none",
-            touchAction:"-ms-none",
-            msTouchSelect:"none"
-          }}
-        >
-          {tooltip.text}
-        </div>
+      {tooltipText && (
+        <FloatingPortal>
+          <div
+            ref={refs.setFloating}
+            style={{
+              ...floatingStyles,
+              background: "rgba(25, 91, 190, 0.59)",
+              backdropFilter: "blur(16px)",
+              color: "#f0f0f0",
+              padding: "3px 6px",
+              borderRadius: "8px",
+              fontSize: "12px",
+              fontWeight: 400,
+              letterSpacing: "0.4px",
+              border: "1px solid rgba(255,255,255,0.1)",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
+              pointerEvents: "none",
+              whiteSpace: "nowrap",
+              zIndex: 9999,
+            }}
+          >
+            {tooltipText}
+          </div>
+        </FloatingPortal>
       )}
     </div>
   );
