@@ -2,11 +2,84 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFloating, offset, flip, shift, FloatingPortal } from "@floating-ui/react";
 
-export type BuildingMapProps = {
-  width?: number;
-};
+const GOLD = "#c8922e";
 
-export default function BuildingMap({ width = 800 }: BuildingMapProps) {
+const towerFeatures = [
+  { label: "CCTV Surveillance" },
+  { label: "Video Door Phone" },
+  { label: "Power Backup" },
+  { label: "Rainwater Harvesting" },
+  { label: "Fire Safety Systems" },
+];
+
+const unitDetails = [
+  { label: "3 BHK Apartments" },
+  { label: "Floors 22 – 41" },
+  { label: "Vastu Compliant" },
+  { label: "Premium Flooring" },
+  { label: "Modular Kitchen" },
+];
+
+const SidePanel = ({
+  title,
+  items,
+}: {
+  title: string;
+  items: { label: string }[];
+}) => (
+  <div
+    style={{
+      width: 210,
+      flexShrink: 0,
+      background: "#f7f6f4",
+      borderRadius: 12,
+      overflow: "hidden",
+      border: "1px solid #ebebeb",
+      alignSelf: "flex-start",
+    }}
+  >
+    <div
+      style={{
+        background: GOLD,
+        color: "#fff",
+        fontWeight: 700,
+        fontSize: 13,
+        letterSpacing: 0.5,
+        padding: "12px 18px",
+        textAlign: "center",
+      }}
+    >
+      {title}
+    </div>
+    <ul style={{ margin: 0, padding: "14px 18px", listStyle: "none", display: "flex", flexDirection: "column", gap: 14 }}>
+      {items.map((item) => (
+        <li
+          key={item.label}
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 10,
+            fontSize: 13,
+            color: "#333",
+            lineHeight: 1.4,
+          }}
+        >
+          <span style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: GOLD,
+            flexShrink: 0,
+            marginTop: 5,
+          }} />
+          {item.label}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+export default function BuildingMap() {
   const navigate = useNavigate();
   const [tooltipText, setTooltipText] = useState<string | null>(null);
   const [hoveredGroup, setHoveredGroup] = useState<number | null>(null);
@@ -156,78 +229,6 @@ export default function BuildingMap({ width = 800 }: BuildingMapProps) {
     { points: "370,253 370,259 370,253 382,251.5 382,251.5 382,257.5 374,258.5 370,258.5" },
     { points: "350,253.5 354,253 358,253 362,252.5 370,253 382,251.5 382,257.5 374,258.5 370,258.5 358,259 350,259.5" }
   ];
-// 
-//   const floor21 = [
-//     { points: "350,260 350,266 350,260 354,259.5 354,259.5 354,265.5 354,265.5 350,266" },
-//     { points: "358,261 358,264 358,258 362,257.5 362,257.5 362,263.5 362,263.5 358,264" },
-//     { points: "370,258 370,264 370,258 382,256.5 382,256.5 382,262.5 374,263.5 370,264" },
-//   ];
-// 
-//   const floor20 = [
-//     { points: "350,268 350,274 350,268 354,267.5 354,267.5 354,273.5 354,273.5 350,274" },
-//     { points: "358,269 358,272 358,266 362,265.5 362,265.5 362,271.5 362,271.5 358,272" },
-//     { points: "370,266 370,272 370,266 382,264.5 382,264.5 382,270.5 374,271.5 370,272" },
-//   ];
-// 
-//   const floor19 = [
-//     { points: "350,276 350,282 350,276 354,275.5 354,275.5 354,281.5 354,281.5 350,282" },
-//     { points: "358,277 358,280 358,274 362,273.5 362,273.5 362,279.5 362,279.5 358,280" },
-//     { points: "370,274 370,280 370,274 382,272.5 382,272.5 382,278.5 374,279.5 370,280" },
-//   ];
-// 
-//   const floor18 = [
-//     { points: "350,284 350,290 350,284 354,283.5 354,283.5 354,289.5 354,289.5 350,290" },
-//     { points: "358,285 358,288 358,282 362,281.5 362,281.5 362,287.5 362,287.5 358,288" },
-//     { points: "370,282 370,288 370,282 382,280.5 382,280.5 382,286.5 374,287.5 370,288" },
-//   ];
-// 
-//   const floor17 = [
-//     { points: "350,292 350,298 350,292 354,291.5 354,291.5 354,297.5 354,297.5 350,298" },
-//     { points: "358,293 358,296 358,290 362,289.5 362,289.5 362,295.5 362,295.5 358,296" },
-//     { points: "370,290 370,296 370,290 382,288.5 382,288.5 382,294.5 374,295.5 370,296" },
-//   ];
-// 
-//   const floor16 = [
-//     { points: "350,300 350,306 350,300 354,299.5 354,299.5 354,305.5 354,305.5 350,306" },
-//     { points: "358,301 358,304 358,298 362,297.5 362,297.5 362,303.5 362,303.5 358,304" },
-//     { points: "370,298 370,304 370,298 382,296.5 382,296.5 382,302.5 374,303.5 370,304" },
-//   ];
-// 
-//   const floor15 = [
-//     { points: "350,308 350,314 350,308 354,307.5 354,307.5 354,313.5 354,313.5 350,314" },
-//     { points: "358,309 358,312 358,306 362,305.5 362,305.5 362,311.5 362,311.5 358,312" },
-//     { points: "370,306 370,312 370,306 382,304.5 382,304.5 382,310.5 374,311.5 370,312" },
-//   ];
-// 
-//   const floor14 = [
-//     { points: "350,316 350,322 350,316 354,315.5 354,315.5 354,321.5 354,321.5 350,322" },
-//     { points: "358,317 358,320 358,314 362,313.5 362,313.5 362,319.5 362,319.5 358,320" },
-//     { points: "370,314 370,320 370,314 382,312.5 382,312.5 382,318.5 374,319.5 370,320" },
-//   ];
-// 
-//   const floor13 = [
-//     { points: "350,324 350,330 350,324 354,323.5 354,323.5 354,329.5 354,329.5 350,330" },
-//     { points: "358,325 358,328 358,322 362,321.5 362,321.5 362,327.5 362,327.5 358,328" },
-//     { points: "370,322 370,328 370,322 382,320.5 382,320.5 382,326.5 374,327.5 370,328" },
-//   ];
-// 
-//   const floor12 = [
-//     { points: "350,332 350,338 350,332 354,331.5 354,331.5 354,337.5 354,337.5 350,338" },
-//     { points: "358,333 358,336 358,330 362,329.5 362,329.5 362,335.5 362,335.5 358,336" },
-//     { points: "370,330 370,336 370,330 382,328.5 382,328.5 382,334.5 374,335.5 370,336" },
-//   ];
-// 
-//   const floor11 = [
-//     { points: "350,340 350,346 350,340 354,339.5 354,339.5 354,345.5 354,345.5 350,346" },
-//     { points: "358,341 358,344 358,338 362,337.5 362,337.5 362,343.5 362,343.5 358,344" },
-//     { points: "370,338 370,344 370,338 382,336.5 382,336.5 382,342.5 374,343.5 370,344" },
-//   ];
-// 
-//   const floor10 = [
-//     { points: "350,348 350,354 350,348 354,347.5 354,347.5 354,353.5 354,353.5 350,354" },
-//     { points: "358,349 358,352 358,346 362,345.5 362,345.5 362,351.5 362,351.5 358,352" },
-//     { points: "370,346 370,352 370,346 382,344.5 382,344.5 382,350.5 374,351.5 370,352" },
-//   ];
 
   const floors = [
     { floorNum: 41, polygons: floor41 },
@@ -250,104 +251,119 @@ export default function BuildingMap({ width = 800 }: BuildingMapProps) {
     { floorNum: 24, polygons: floor24 },
     { floorNum: 23, polygons: floor23 },
     { floorNum: 22, polygons: floor22 },
-    // { floorNum: 21, polygons: floor21 },
-    // { floorNum: 20, polygons: floor20 },
-    // { floorNum: 19, polygons: floor19 },
-    // { floorNum: 18, polygons: floor18 }
   ];
 
   return (
-    <div style={{ width: `${width}px`, position: "relative" }}>
-      {/* Background Image */}
-      <img
-        src="/arcadia.jpg"
-        alt="Apartment"
-        style={{ width: "100%", display: "block" }}
-      />
+    <div style={{
+      display: "flex",
+      alignItems: "flex-start",
+      gap: 24,
+      padding: "28px 36px",
+      maxWidth: 1700,
+      margin: "0 auto",
+    }}>
+      {/* Left panel */}
+      <SidePanel title="Tower Features" items={towerFeatures} />
 
-      {/* SVG Overlay */}
-      <svg
-        viewBox="0 0 800 472"
-        preserveAspectRatio="none"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {floors.flatMap(({ floorNum, polygons }) =>
-          polygons.map((poly, j) => {
-            const isOutline = j >= 3;
-            return (
-              <polygon
-                key={`${floorNum}-${j}`}
-                points={poly.points}
-                fill={!isOutline && hoveredGroup === floorNum ? "rgba(38, 221, 53, 0.55)" : "transparent"}
-                stroke={!isOutline && hoveredGroup === floorNum ? "gold" : "transparent"}
-                strokeWidth="0.8"
-                style={{ cursor: "pointer" }}
-                onMouseEnter={(e) => {
-                  setHoveredGroup(floorNum);
-                  setTooltipText(`Floor ${floorNum} - 3BHK Apartment - ₹45L`);
-                  refs.setPositionReference({
-                    getBoundingClientRect() {
-                      return { width: 0, height: 0, x: e.clientX, y: e.clientY, top: e.clientY, left: e.clientX, right: e.clientX, bottom: e.clientY };
-                    },
-                  });
-                }}
-                onMouseMove={(e) => {
-                  refs.setPositionReference({
-                    getBoundingClientRect() {
-                      return { width: 0, height: 0, x: e.clientX, y: e.clientY, top: e.clientY, left: e.clientX, right: e.clientX, bottom: e.clientY };
-                    },
-                  });
-                }}
-                onMouseLeave={() => {
-                  setHoveredGroup(null);
-                  setTooltipText(null);
-                }}
-                onClick={() =>
-                  navigate("/section", {
-                    state: {
-                      floorNum,
-                      floorInfo: `Floor ${floorNum} - 3BHK Apartment - ₹45Lakhs`,
-                    },
-                  })
-                }
-              />
-            );
-          })
+      {/* Center: Building Image + SVG */}
+      <div style={{
+        flex: 1,
+        position: "relative",
+        borderRadius: 12,
+        overflow: "hidden",
+        boxShadow: "0 2px 16px rgba(0,0,0,0.10)",
+        border: "1px solid #e8e8e8",
+      }}>
+        <img
+          src="/arcadia.jpg"
+          alt="Arcadia Building"
+          style={{ width: "100%", display: "block" }}
+        />
+        <svg
+          viewBox="0 0 800 472"
+          preserveAspectRatio="none"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          {floors.flatMap(({ floorNum, polygons }) =>
+            polygons.map((poly, j) => {
+              const isOutline = j >= 3;
+              return (
+                <polygon
+                  key={`${floorNum}-${j}`}
+                  points={poly.points}
+                  fill={!isOutline && hoveredGroup === floorNum ? "rgba(244, 209, 32, 0.45)" : "transparent"}
+                  stroke={!isOutline && hoveredGroup === floorNum ? "#c8922e" : "transparent"}
+                  strokeWidth="0.8"
+                  style={{ cursor: "pointer" }}
+                  onMouseEnter={(e) => {
+                    setHoveredGroup(floorNum);
+                    setTooltipText(`Floor ${floorNum} · 3 BHK · ₹45L`);
+                    refs.setPositionReference({
+                      getBoundingClientRect() {
+                        return { width: 0, height: 0, x: e.clientX, y: e.clientY, top: e.clientY, left: e.clientX, right: e.clientX, bottom: e.clientY };
+                      },
+                    });
+                  }}
+                  onMouseMove={(e) => {
+                    refs.setPositionReference({
+                      getBoundingClientRect() {
+                        return { width: 0, height: 0, x: e.clientX, y: e.clientY, top: e.clientY, left: e.clientX, right: e.clientX, bottom: e.clientY };
+                      },
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredGroup(null);
+                    setTooltipText(null);
+                  }}
+                  onClick={() =>
+                    navigate("/section", {
+                      state: {
+                        floorNum,
+                        floorInfo: `Floor ${floorNum} · 3 BHK · ₹45 Lakhs`,
+                      },
+                    })
+                  }
+                />
+              );
+            })
+          )}
+        </svg>
+
+        {tooltipText && (
+          <FloatingPortal>
+            <div
+              ref={refs.setFloating}
+              style={{
+                ...floatingStyles,
+                background: "rgba(28,28,28,0.88)",
+                backdropFilter: "blur(8px)",
+                color: "#f5f5f5",
+                padding: "4px 10px",
+                borderRadius: 6,
+                fontSize: 12,
+                fontWeight: 500,
+                letterSpacing: 0.3,
+                border: "1px solid rgba(200,146,46,0.4)",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+                pointerEvents: "none",
+                whiteSpace: "nowrap",
+                zIndex: 9999,
+              }}
+            >
+              {tooltipText}
+            </div>
+          </FloatingPortal>
         )}
-      </svg>
+      </div>
 
-      {/* Tooltip */}
-      {tooltipText && (
-        <FloatingPortal>
-          <div
-            ref={refs.setFloating}
-            style={{
-              ...floatingStyles,
-              background: "rgba(25, 91, 190, 0.59)",
-              backdropFilter: "blur(16px)",
-              color: "#f0f0f0",
-              padding: "3px 6px",
-              borderRadius: "8px",
-              fontSize: "12px",
-              fontWeight: 400,
-              letterSpacing: "0.4px",
-              border: "1px solid rgba(255,255,255,0.1)",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
-              pointerEvents: "none",
-              whiteSpace: "nowrap",
-              zIndex: 9999,
-            }}
-          >
-            {tooltipText}
-          </div>
-        </FloatingPortal>
-      )}
+      {/* Right panel */}
+      <SidePanel title="Unit Details" items={unitDetails} />
     </div>
   );
 }

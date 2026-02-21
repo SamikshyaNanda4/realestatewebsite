@@ -1,44 +1,19 @@
 import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
 import BuildingMap from "./components/BuildingMap";
 import ArcadiaSection from "./components/ArcadiaSection";
 import ArcadiaFlatUnit3BHK from "./components/ArcadiaFlatUnit3BHK";
 import NotFound from "./pages/NotFound";
 
-const centeredPage: React.CSSProperties = {
-  minHeight: "100vh",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
 export default function App() {
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <div style={centeredPage}>
-            <BuildingMap width={1500} />
-          </div>
-        }
-      />
-      <Route
-        path="/section"
-        element={
-          <div style={centeredPage}>
-            <ArcadiaSection width={1000} />
-          </div>
-        }
-      />
-      <Route
-        path="/unit"
-        element={
-          <div style={centeredPage}>
-            <ArcadiaFlatUnit3BHK width={1000} />
-          </div>
-        }
-      />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<BuildingMap />} />
+        <Route path="/section" element={<ArcadiaSection />} />
+        <Route path="/unit" element={<ArcadiaFlatUnit3BHK />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Layout>
   );
 }
