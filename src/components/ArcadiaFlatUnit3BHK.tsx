@@ -86,7 +86,6 @@ export default function ArcadiaFlatUnit3BHK() {
     details: string;
   } | null>(null);
 
-  // Small cursor-following tooltip (room name only)
   const { refs, floatingStyles } = useFloating({
     open: hoveredUnitInfo !== null,
     placement: "top",
@@ -254,7 +253,6 @@ export default function ArcadiaFlatUnit3BHK() {
           margin: "0 auto",
         }}
       >
-        {/* Left sidebar — context breadcrumb */}
         <div
           style={{
             width: 200,
@@ -325,7 +323,6 @@ export default function ArcadiaFlatUnit3BHK() {
           )}
         </div>
 
-        {/* Center: Flat plan image + SVG overlay */}
         <div
           style={{
             flex: 1,
@@ -448,7 +445,6 @@ export default function ArcadiaFlatUnit3BHK() {
           )}
         </div>
 
-        {/* Right panel */}
         <div
           style={{
             width: 185,

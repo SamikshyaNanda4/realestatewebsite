@@ -262,10 +262,8 @@ export default function BuildingMap() {
       maxWidth: 1700,
       margin: "0 auto",
     }}>
-      {/* Left panel */}
       <SidePanel title="Tower Features" items={towerFeatures} />
 
-      {/* Center: Building Image + SVG */}
       <div style={{
         flex: 1,
         position: "relative",

@@ -53,7 +53,6 @@ export default function ArcadiaSection() {
       margin: "0 auto",
     }}>
 
-      {/* Left sidebar */}
       <div style={{
         width: 200,
         flexShrink: 0,
@@ -61,7 +60,6 @@ export default function ArcadiaSection() {
         flexDirection: "column",
         gap: 12,
       }}>
-        {/* Floor badge */}
         <div style={{
           background: GOLD,
           color: "#fff",
@@ -75,7 +73,6 @@ export default function ArcadiaSection() {
           {floorState ? `Floor No. : ${floorState.floorNum}` : "Select a Floor"}
         </div>
 
-        {/* Section list */}
         {[1, 2].map((id) => (
           <div
             key={id}
@@ -97,7 +94,6 @@ export default function ArcadiaSection() {
         ))}
       </div>
 
-      {/* Center: Section image + SVG */}
       <div style={{
         flex: 1,
         position: "relative",
@@ -194,7 +190,6 @@ export default function ArcadiaSection() {
         )}
       </div>
 
-      {/* Right panel — Go Back */}
       <div style={{
         width: 160,
         flexShrink: 0,
